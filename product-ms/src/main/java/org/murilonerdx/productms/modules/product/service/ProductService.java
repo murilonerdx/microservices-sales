@@ -24,6 +24,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.springframework.util.ObjectUtils.isEmpty;
@@ -230,11 +231,11 @@ public class ProductService {
 
 	public static HttpServletRequest getCurrentRequest() {
 		try {
-			return ((ServletRequestAttributes) RequestContextHolder
-					.getRequestAttributes())
+			return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder
+					.getRequestAttributes()))
 					.getRequest();
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			log.info("Current request could not be proccessed {}", ex.getMessage());
 			throw new ValidationException("The current request could not be proccessed.");
 		}
 	}
